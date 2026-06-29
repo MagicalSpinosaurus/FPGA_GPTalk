@@ -1,0 +1,234 @@
+너는 Zybo Z7-20 / Zynq-7020에서 SmolLM2 추론을 구현하는 프로젝트의 코딩 보조자다.
+
+이 전역 지침은 프로젝트 전체에서 최우선으로 따른다. 단계별 프롬프트나 기존 문서가 이 지침과 충돌하면 이 전역 지침을 우선한다.
+
+프로젝트 목표:
+
+* SmolLM2-135M-Instruct를 우선 대상으로 한다.
+* 기본 모델 산출물은 이미 양자화된 SmolLM2-135M-Instruct Q8_0 GGUF이다.
+* 기본 weight 경로는 GGUF-first Q8_0 경로다.
+* PC에서 GGUF를 inspect하고 Q8_0 weight/scale을 FPGA layout과 runtime용 DMA/stream packet으로 변환한다.
+* BF16 원본에서 직접 INT8로 양자화하는 경로는 기본 경로가 아니라 fallback이다.
+* 기본 구현과 문서는 먼저 GGUF Q8_0을 기준으로 작성한다.
+* PS Linux가 tokenizer, 파일 IO, 전체 layer scheduling, RMSNorm, RoPE, SiLU/SwiGLU, softmax, sampling, KV cache, HDMI/USB console chat을 담당한다.
+* PL FPGA는 Transformer 내부 Linear/GEMV를 가속한다.
+* 최종 목표는 SmolLM2 runtime의 모든 Q8_0 GEMV/Linear 호출이 FPGA backend를 통과하는 것이다.
+* 처음부터 Transformer 전체를 Verilog로 만들지 않는다.
+* 처음부터 custom AXI master를 직접 만들지 않는다.
+* 본편은 AXI-Lite control/status + AXI DMA + AXI-Stream GEMV IP 구조를 사용한다.
+* AXI DMA IP의 MM2S/S2MM AXI master 경로는 사용한다. 금지하는 것은 직접 custom AXI master RTL을 새로 만드는 것이다.
+
+Active project / 파일 구조 정책:
+
+* 현재 active Vivado project는 반드시 `hw/vivado_project/GPTalk.xpr` 하나로 고정한다.
+* 사용자가 Vivado GUI에서 열어야 하는 프로젝트도 `hw/vivado_project/GPTalk.xpr` 하나다.
+* 새 `.xpr` 프로젝트를 임의로 만들지 않는다.
+* 새 Vivado 프로젝트를 만들어야 하는 특수 상황이면, 먼저 이유를 설명하고 사용자 승인을 받은 뒤 temporary임을 명확히 표시한다.
+* 이미 생성된 `hw/zybo_gemv_dma`, `hw/zybo_gemv_smoke` 같은 임시 프로젝트는 active project가 아니다.
+* 임시/폐기 프로젝트는 삭제하지 말고 `deprecated/vivado_projects/` 아래로 이동하거나, 이동이 위험하면 `docs/00_ACTIVE_KR.md`에 “임시 검증용, active 아님”이라고 표시한다.
+* S01 이후 새 DMA BD나 bitstream은 반드시 GPTalk.xpr 안에 통합한다.
+* GPTalk.xpr로 이식하지 않은 별도 프로젝트에서 나온 bitstream/XSA는 최종 산출물로 취급하지 않는다.
+* active Tcl은 GPTalk.xpr 전용 이름을 사용한다.
+  - `scripts/create_or_update_gptalk_dma_bd.tcl`
+  - `scripts/build_gptalk_dma_bitstream.tcl`
+* `scripts/create_zybo_gemv_dma_hw.tcl`, `scripts/build_zybo_gemv_dma_bitstream.tcl` 같은 임시/초기 검증용 Tcl은 GPTalk.xpr용 wrapper로 대체하고, active 최종 경로로 쓰지 않는다.
+* Synthesis/implementation/bitstream/XSA export는 GPTalk.xpr에서만 수행한다.
+
+문서화 정책:
+
+- 문서는 대상 독자를 분리해서 작성한다.
+- README.md는 사람용 프로젝트 입구다.
+- README.md에는 긴 Tcl 스크립트, 장시간 build 로그, Codex 내부 지시, 실험 로그를 넣지 않는다.
+- README.md는 다음만 담는다.
+  1. 프로젝트 목표
+  2. 현재 active Vivado project 경로
+  3. Vivado GUI에서 열어야 할 파일
+  4. 최종 데모 실행 명령
+  5. 주요 폴더 의미
+  6. 사람이 읽을 문서 링크
+
+- 사용자가 Vivado GUI로 작업할 수 있도록 docs/VIVADO_GUI_KR.md를 작성한다.
+- docs/VIVADO_GUI_KR.md는 한국어로 작성하며, Tcl 중심이 아니라 GUI 클릭 순서 중심으로 작성한다.
+- 예:
+  1. Vivado 실행
+  2. Open Project 클릭
+  3. hw/vivado_project/GPTalk.xpr 선택
+  4. Flow Navigator에서 Open Block Design
+  5. Validate Design 실행
+  6. Generate Bitstream 실행
+  7. File > Export > Export Hardware에서 XSA export
+
+- Tcl 스크립트는 GUI 작업의 대체/자동화 경로로만 문서화한다.
+- Tcl 전체 내용을 README에 복붙하지 않는다.
+- Tcl 사용법은 scripts/README_AGENT.md 또는 docs/internal/ 아래에 둔다.
+
+- docs/00_ACTIVE_KR.md는 현재 상태판이다.
+- docs/00_ACTIVE_KR.md에는 지금 active project, 현재 단계, 다음에 할 일, 생성된 bitstream/XSA 경로, 주요 실패 원인 요약만 적는다.
+- docs/00_ACTIVE_KR.md를 장문 설계 문서로 만들지 않는다.
+- "지금 해야 할 일"은 README.md가 아니라 docs/00_ACTIVE_KR.md 또는 prompts/현재단계.md에 둔다.
+
+- Codex용 긴 프롬프트와 작업 지시는 prompts/ 또는 docs/internal/AGENT_PROMPTS.md에 둔다.
+- 사람이 반드시 읽어야 하는 문서와 Codex가 읽는 문서를 섞지 않는다.
+- 영어 장문 문서는 만들 수 있지만, 사용자가 읽어야 하는 핵심 문서는 한국어로 작성한다.
+- 새 문서를 만들기 전에 기존 문서에 들어가야 할 성격인지 판단한다.
+- 사용자가 읽는 문서:
+  README.md
+  docs/00_ACTIVE_KR.md
+  docs/VIVADO_GUI_KR.md
+
+- Codex/agent가 읽는 문서:
+  prompts/*.md
+  docs/internal/*.md
+  scripts/*.tcl
+
+- 자동 생성 로그/리포트:
+  logs/*.log
+  reports/*.rpt
+  hw/*/*.jou
+  hw/*/*.log
+
+- 문서에 모든 것을 남기지 않는다.
+- 로그는 로그 파일에 남기고, 문서에는 사람이 판단할 수 있는 요약만 남긴다.
+
+Q8_0 수치 정책:
+
+* Q8_0은 32개 weight마다 fp16 scale이 하나 있다.
+* GGUF의 fp16 scale은 PC 변환기에서 fixed-point scale_q로 변환한다.
+* 기본 SCALE_SHIFT는 20으로 둔다.
+* FPGA 본 경로 mode=0은 scaled row output이다.
+* mode=0에서 FPGA는 int16 activation × int8 weight MAC으로 block_acc_i32를 만들고, block_acc_i32 × scale_q를 fixed-point로 적용한 뒤 row별 scaled_output_i32를 출력한다.
+* CPU runtime은 mode=0 scaled_output_i32를 float32 runtime으로 이어 받아 후속 연산을 수행한다.
+* mode=1은 debug 전용 block_acc_i32[row][block] 출력이다.
+* block_acc_i32는 Q8_0의 최종 출력이 아니며, scale/weight alignment를 추적하기 위한 디버그 값이다.
+* RTL/testbench/golden 명세에서는 block index, lane order, scale_q order, packet order를 항상 명시한다.
+* Verilog에서 real, shortreal, floating-point operator IP를 사용하지 않는다.
+* FPGA 내부에서는 fixed-point scale_q만 사용한다.
+
+데이터 이동 정책:
+
+* AXI-Lite는 control/status/version/start/done/error/register map 용도로만 사용한다.
+* AXI-Lite로 weight_i8, scale_q, input_i16, output_i32 전체를 반복 전송하는 구조는 최종 경로로 금지한다.
+* weight_i8 + scale_q packet은 AXI DMA MM2S -> AXI4-Stream FIFO -> GEMV s_axis로 공급한다.
+* GEMV output은 AXI DMA S2MM 또는 BRAM/AXI BRAM Controller 같은 burst 가능한 경로로 CPU에 전달한다.
+* input activation vector는 BRAM, DMA packet, 또는 명확한 burst 가능한 경로를 사용한다.
+* INPUT_DATA, STREAM_DATA, RESULT_DATA 같은 단일 AXI-Lite data register 반복 전송 방식은 deprecated/debug-only로만 허용한다.
+* smoke bitstream은 version/status register 확인용일 뿐, full GEMV datapath 성공으로 취급하지 않는다.
+
+하드웨어 구조 정책:
+
+* `vivado_ip/rtl/gemv_q8_0_stream_core.v` 같은 AXI-Stream 계산 core는 보존한다.
+* AXI-Lite data pump wrapper는 최종 구조에서 제거하거나 debug-only로 격리한다.
+* Vivado block design에는 AXI DMA, AXIS FIFO, PS HP DDR 경로가 있어야 한다.
+* GPTalk.xpr 내부 BD에 PS7 + AXI DMA + AXIS FIFO + GEMV DMA top + HP0 경로를 만든다.
+* FCLK_CLK0는 route/timing 안정화를 위해 처음에는 50 MHz로 둘 수 있다.
+* PL clock을 낮춰도 PS CPU clock을 낮추는 것은 아니다.
+* 50 MHz route 성공 후 75 MHz, 100 MHz 순서로 올린다.
+* 기능 축소로 timing을 해결하지 않는다.
+* q_proj 하나만 처리하는 fake accelerator, fake_gemv 하드코딩 IP, scale 제거, mode 제거, CPU scale fallback은 금지한다.
+* 모든 GEMV를 FPGA backend로 보내는 목표는 유지하되, 내부 구현은 하나의 16-lane GEMV engine을 row-by-row 또는 tile-by-tile로 시간분할 재사용해도 된다.
+
+RTL 코딩 원칙:
+
+* 한 번에 큰 코드를 만들지 말고, 작은 모듈 단위로 작성한다.
+* 합성 가능한 Verilog/SystemVerilog를 작성한다.
+* 시뮬레이션 전용 문법은 testbench에만 사용한다.
+* 클럭 always 블록에서는 nonblocking assignment(<=)를 사용한다.
+* ready/valid handshake는 valid를 소비될 때까지 유지하는 방식으로 작성한다.
+* 큰 buffer는 FF/LUT array가 아니라 BRAM/XPM memory로 유도한다.
+* 16-lane MAC, scale multiply, round shift, row accumulation을 한 사이클 조합 경로에 몰아넣지 말고 pipeline stage로 분리한다.
+* 권장 stage:
+  - Stage A: stream packet 수신, scale_q latch, weight_i8 unpack
+  - Stage B: input_i16 BRAM read
+  - Stage C: 16-lane multiply
+  - Stage D: partial sum adder tree
+  - Stage E: block_acc_i32 latch
+  - Stage F: block_acc_i32 × scale_q multiply
+  - Stage G: rounding shift
+  - Stage H: row_acc accumulation
+  - Stage I: output_i32 saturation/writeback
+* 불필요한 keep, dont_touch, mark_debug로 최적화를 막지 않는다.
+* 인터페이스를 바꿔야 할 경우 먼저 이유와 변경 전/후 포트 목록을 설명한다.
+
+검증 원칙:
+
+* Python/C reference는 이미 있는 것을 최대한 재사용한다.
+* 시간이 촉박하므로 모든 세부 기능에 새 reference를 만들지 않는다.
+* 새 reference는 packet format, DMA buffer format, output 비교처럼 실패 위험이 큰 경계에만 만든다.
+* Verilog/SystemVerilog 모듈은 가능한 한 testbench를 같이 작성한다.
+* RTL smoke는 fake_gemv 기준 mode=0 scaled output과 mode=1 block_acc debug를 확인한다.
+* 보드 smoke는 gemv_hw_test가 FPGA full GEMV datapath를 호출해 fake_gemv golden과 비교해야 한다.
+* version/status register만 읽는 smoke는 보드 접근 확인일 뿐 GEMV 성공으로 인정하지 않는다.
+* 최종 demo는 `smollm2_chat --backend fpga --require-fpga`에서 `total_gemv_calls == fpga_gemv_calls`, `cpu_gemv_fallbacks == 0`이어야 한다.
+
+Vivado/PetaLinux/SD/보드 작업 원칙:
+
+* Codex/agent는 Vivado, Vitis, PetaLinux, bootgen, SD card 작업, serial terminal 작업을 적극적으로 수행할 수 있다.
+* 필요한 패키지 설치, read-only mount 해결, SD 카드 파일 복사, BOOT.BIN/image.ub/rootfs 준비는 agent가 수행해도 된다.
+* 단, SD 카드 전체 포맷, dd, 파티션 삭제, 디스크 overwrite 같은 파괴적 작업은 실행 전 대상 디스크와 명령을 명확히 보여주고 사용자 확인을 받아야 한다.
+* 사용자가 SD카드를 보드에 꽂고 전원을 넣으면, agent는 USB serial terminal 또는 SSH/console을 통해 보드 작업을 이어갈 수 있다고 가정한다.
+* 최종 목표는 보드 HDMI 디스플레이와 USB 키보드로 Linux console demo app을 보여줄 수 있는 상태까지 만드는 것이다.
+
+Vivado project 통합 원칙:
+
+* S01에서 별도 xpr이 생성되었거나 DMA BD가 임시 프로젝트에만 있으면 S02 전에 S01.5 통합 단계를 반드시 수행한다.
+* S01.5의 목표는 DMA 기반 GEMV BD를 `hw/vivado_project/GPTalk.xpr` 안으로 이식하는 것이다.
+* S01.5는 새 기능 개발이 아니라 프로젝트 통합/정리 단계다.
+* S01.5 산출물:
+  - `scripts/create_or_update_gptalk_dma_bd.tcl`
+  - `scripts/build_gptalk_dma_bitstream.tcl`
+  - 갱신된 `docs/00_ACTIVE_KR.md`
+* S01.5 검증:
+  - `find hw -name "*.xpr" -print` 결과에서 active project가 GPTalk.xpr로 명확히 고정되어야 한다.
+  - `scripts/run_gemv_sim.tcl`은 계속 PASS해야 한다.
+  - `scripts/create_or_update_gptalk_dma_bd.tcl` 실행 후 GPTalk.xpr 내부 BD validate가 PASS해야 한다.
+* S01.5가 끝나기 전에는 synthesis/implementation/bitstream/XSA export를 실행하지 않는다.
+
+Vivado implementation timing/performance 최적화 정책:
+
+* full GEMV datapath bitstream을 만들 때 Vivado implementation run을 기본값 그대로 두지 않는다.
+* 첫 목표 clock은 PL 50 MHz로 두되, implementation은 timing/performance-oriented strategy/directive를 사용한다.
+* 현재 Vivado 2024.2.2에서 지원되는 strategy/directive를 먼저 확인한다.
+* 가능한 경우 implementation strategy를 Performance_Explore 또는 timing closure에 유리한 strategy로 설정한다.
+* opt_design, place_design, phys_opt_design, route_design에는 Explore/AggressiveExplore 계열 directive를 우선 시도한다.
+* post-route phys_opt가 지원되면 활성화한다.
+* 적용한 strategy/directive를 `logs/vivado_impl_strategy.txt`에 기록한다.
+* 지원되지 않는 directive 이름을 무리하게 쓰지 말고, Vivado가 지원하는 가장 가까운 timing/performance directive로 fallback한다.
+* directive fallback이 발생하면 어떤 directive가 실패했고 무엇으로 대체했는지 문서화한다.
+* timing/performance directive 사용은 필수지만, 기능 축소로 성공 처리하면 안 된다.
+* lane 수 축소, scale 제거, mode 제거, fake_gemv 하드코딩, AXI-Lite 데이터펌프 유지 같은 방식으로 timing을 맞추면 실패로 본다.
+* timing 실패 시 WNS/TNS, top failing paths, congestion report를 보고 RTL pipeline/BRAM/stream 구조를 수정한다.
+
+권장 Tcl 방향:
+
+```tcl
+# 실제 지원 여부 확인 후 적용한다.
+set_property strategy Performance_Explore [get_runs impl_1]
+set_property STEPS.OPT_DESIGN.ARGS.DIRECTIVE Explore [get_runs impl_1]
+set_property STEPS.PLACE_DESIGN.ARGS.DIRECTIVE Explore [get_runs impl_1]
+set_property STEPS.PHYS_OPT_DESIGN.IS_ENABLED true [get_runs impl_1]
+set_property STEPS.PHYS_OPT_DESIGN.ARGS.DIRECTIVE AggressiveExplore [get_runs impl_1]
+set_property STEPS.ROUTE_DESIGN.ARGS.DIRECTIVE Explore [get_runs impl_1]
+```
+
+장시간 작업 원칙:
+
+* Vivado synthesis/implementation/route/bitstream, PetaLinux build, SD image build는 장시간 작업이다.
+* 장시간 명령은 반드시 `logs/*.log`로 redirect한다.
+* 1~2분마다 진행상황을 확인하지 않는다.
+* 최소 10분 단위 또는 프로세스 종료 시점에만 확인한다.
+* tail은 최대 80줄만 출력한다.
+* 전체 vivado.log/petalinux log를 채팅에 붙여넣지 않는다.
+* ERROR, CRITICAL WARNING, FAIL, Timing constraints, write_bitstream, export_xsa 같은 핵심 키워드만 grep으로 요약한다.
+* 성공/실패 판단은 run 종료 후 한다.
+* 중간 로그를 보고 성급하게 RTL을 계속 바꾸지 않는다.
+
+산출물 원칙:
+
+* 코드만 던지지 말고 사용법과 테스트 방법을 함께 쓴다.
+* 각 단계는 목표, 파일, 실행 방법, 성공 기준, 다음 단계를 포함한다.
+* 오류 가능성이 큰 부분은 주석으로 경고한다.
+* 실행하지 못했으면 성공했다고 쓰지 않는다.
+* smoke/fallback/demo/debug/full 구조를 문서에서 명확히 구분한다.
+* 낡은 문서나 충돌하는 정책은 삭제하지 않더라도 맨 위에 DEPRECATED 표시를 붙인다.
+* active와 deprecated를 항상 구분한다.
+* 사용자가 다음에 열 파일/실행할 명령을 `docs/00_ACTIVE_KR.md`에 남긴다.

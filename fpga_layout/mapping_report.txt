@@ -1,0 +1,51 @@
+Tensor map generation report
+source csv: /home/user22/Desktop/smollm2-zybo/pycharm/reports/gguf_inspect/tensors.csv
+tensor map: /home/user22/Desktop/smollm2-zybo/pycharm/fpga_layout/tensor_map.json
+
+Summary:
+- total tensors: 272
+- mapped tensors: 272
+- unknown tensors: 0
+- used tensors: 272
+
+Role counts:
+- attention_input_norm: 30
+- attention_k_projection: 30
+- attention_output_projection: 30
+- attention_q_projection: 30
+- attention_v_projection: 30
+- final_norm: 1
+- mlp_down_projection: 30
+- mlp_gate_projection: 30
+- mlp_up_projection: 30
+- post_attention_norm: 30
+- token_embedding: 1
+
+Manual editing instructions:
+1. 이 파일은 초안이다. runtime의 실제 loader가 기대하는 이름과 다르면 internal_name을 수정한다.
+2. internal_name이 unknown인 항목은 자동 규칙으로 역할을 확정하지 못한 tensor다.
+3. unknown 항목을 수정할 때는 original_name, shape, dtype_or_quant_type을 보고 대응되는 runtime buffer 이름을 정한다.
+4. runtime에서 사용하지 않는 tensor는 used를 false로 둔다. 로드해야 하는 weight/bias/norm이면 used를 true로 바꾼다.
+5. shape는 GGUF CSV에서 읽은 원본 shape다. runtime이 transpose를 요구하면 이 JSON의 shape를 바꾸지 말고 loader 쪽 변환 규칙을 별도로 기록한다.
+6. 새 GGUF naming variant를 발견하면 create_tensor_map.py의 DIRECT_NAME_RULES 또는 LAYER_SUFFIX_RULES에 규칙을 추가한 뒤 다시 생성한다.
+7. 매핑을 수동 수정한 뒤에는 mapping_report.txt의 unknown 목록이 남아 있는지 확인하고, loader smoke test에서 모든 used=true tensor가 소비되는지 확인한다.
+
+Unknown tensors:
+- none
+
+Unused tensors:
+- none
+
+Common automatic GGUF rules included:
+- token_embd.weight -> tok_embeddings
+- output.weight -> lm_head
+- output_norm.weight -> final_norm
+- blk.N.attn_q.weight -> layer_N_q_proj
+- blk.N.attn_k.weight -> layer_N_k_proj
+- blk.N.attn_v.weight -> layer_N_v_proj
+- blk.N.attn_output.weight -> layer_N_o_proj
+- blk.N.ffn_gate.weight -> layer_N_gate_proj
+- blk.N.ffn_up.weight -> layer_N_up_proj
+- blk.N.ffn_down.weight -> layer_N_down_proj
+- blk.N.attn_norm.weight -> layer_N_input_norm
+- blk.N.ffn_norm.weight -> layer_N_post_attn_norm

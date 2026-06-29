@@ -1,0 +1,38 @@
+GGUF Q8_0 fixed-scale GEMV golden generation report
+cases: 4
+
+[fake_gemv]
+source: fake_q8_0_hand_calc_weight
+shape: out=3 in=32 padded_out=16 lanes=16 blocks=1
+weight exact: True
+scale_q exact: True
+block_acc exact: True
+scaled_i32 exact: True
+fixed vs float max error: 0.0
+
+[layer0_q_proj]
+source: blk.0.attn_q.weight
+shape: out=576 in=576 padded_out=576 lanes=16 blocks=18
+weight exact: True
+scale_q exact: True
+block_acc exact: True
+scaled_i32 exact: True
+fixed vs float max error: 0.00146484375
+
+[layer0_gate_proj]
+source: blk.0.ffn_gate.weight
+shape: out=1536 in=576 padded_out=1536 lanes=16 blocks=18
+weight exact: True
+scale_q exact: True
+block_acc exact: True
+scaled_i32 exact: True
+fixed vs float max error: 0.000732421875
+
+[lm_head_slice]
+source: token_embd.weight
+shape: out=32 in=576 padded_out=32 lanes=16 blocks=18
+weight exact: True
+scale_q exact: True
+block_acc exact: True
+scaled_i32 exact: True
+fixed vs float max error: 0.0006103515625

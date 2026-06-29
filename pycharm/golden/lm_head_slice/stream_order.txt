@@ -1,0 +1,24 @@
+FPGA GEMV golden stream order
+
+scale_q_i32.bin:
+  dtype: little-endian int32
+  scale_q formula: round(scale * 2^20)
+  order:
+    for row_group in range(0, padded_out_features, lanes):
+      for q8_block in range(in_features // q8_block_size):
+        for lane in range(lanes):
+          write scale_q[row_group + lane, q8_block]
+
+weight_q8_fpga_layout.bin:
+  dtype: int8
+  order:
+    for row_group in range(0, padded_out_features, lanes):
+      for q8_block in range(in_features // q8_block_size):
+        for column_in_block in range(q8_block_size):
+          for lane in range(lanes):
+            write weight[row_group + lane, q8_block*q8_block_size + column_in_block]
+
+padding:
+  lanes: 16
+  q8_block_size: 32
+  rows >= out_features are zero-padded in weight and scale_q streams.

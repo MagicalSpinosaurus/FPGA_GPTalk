@@ -1,0 +1,4043 @@
+{
+  "schema_version": 1,
+  "source": {
+    "inspect_csv": "/home/user22/Desktop/smollm2-zybo/pycharm/reports/gguf_inspect/tensors.csv",
+    "generator": "pycharm/pc_tools/create_tensor_map.py"
+  },
+  "summary": {
+    "total_tensors": 272,
+    "mapped_tensors": 272,
+    "unknown_tensors": 0,
+    "used_tensors": 272
+  },
+  "editing_instructions": [
+    "이 파일은 초안이다. runtime의 실제 loader가 기대하는 이름과 다르면 internal_name을 수정한다.",
+    "internal_name이 unknown인 항목은 자동 규칙으로 역할을 확정하지 못한 tensor다.",
+    "unknown 항목을 수정할 때는 original_name, shape, dtype_or_quant_type을 보고 대응되는 runtime buffer 이름을 정한다.",
+    "runtime에서 사용하지 않는 tensor는 used를 false로 둔다. 로드해야 하는 weight/bias/norm이면 used를 true로 바꾼다.",
+    "shape는 GGUF CSV에서 읽은 원본 shape다. runtime이 transpose를 요구하면 이 JSON의 shape를 바꾸지 말고 loader 쪽 변환 규칙을 별도로 기록한다.",
+    "새 GGUF naming variant를 발견하면 create_tensor_map.py의 DIRECT_NAME_RULES 또는 LAYER_SUFFIX_RULES에 규칙을 추가한 뒤 다시 생성한다.",
+    "매핑을 수동 수정한 뒤에는 mapping_report.txt의 unknown 목록이 남아 있는지 확인하고, loader smoke test에서 모든 used=true tensor가 소비되는지 확인한다."
+  ],
+  "mappings": [
+    {
+      "original_name": "token_embd.weight",
+      "internal_name": "tok_embeddings",
+      "shape": [
+        576,
+        49152
+      ],
+      "role": "token_embedding",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 1785664,
+      "nbytes": 30081024,
+      "confidence": "auto",
+      "note": "matched direct GGUF/HF tensor name rule"
+    },
+    {
+      "original_name": "blk.0.attn_norm.weight",
+      "internal_name": "layer_0_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 31866688,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.0.ffn_down.weight",
+      "internal_name": "layer_0_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 31868992,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.0.ffn_gate.weight",
+      "internal_name": "layer_0_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 32809024,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.0.ffn_up.weight",
+      "internal_name": "layer_0_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 33749056,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.0.ffn_norm.weight",
+      "internal_name": "layer_0_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 34689088,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.0.attn_k.weight",
+      "internal_name": "layer_0_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 34691392,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.0.attn_output.weight",
+      "internal_name": "layer_0_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 34808896,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.0.attn_q.weight",
+      "internal_name": "layer_0_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 35161408,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.0.attn_v.weight",
+      "internal_name": "layer_0_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 35513920,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.1.attn_norm.weight",
+      "internal_name": "layer_1_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 35631424,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.1.ffn_down.weight",
+      "internal_name": "layer_1_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 35633728,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.1.ffn_gate.weight",
+      "internal_name": "layer_1_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 36573760,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.1.ffn_up.weight",
+      "internal_name": "layer_1_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 37513792,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.1.ffn_norm.weight",
+      "internal_name": "layer_1_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 38453824,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.1.attn_k.weight",
+      "internal_name": "layer_1_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 38456128,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.1.attn_output.weight",
+      "internal_name": "layer_1_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 38573632,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.1.attn_q.weight",
+      "internal_name": "layer_1_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 38926144,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.1.attn_v.weight",
+      "internal_name": "layer_1_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 39278656,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.10.attn_norm.weight",
+      "internal_name": "layer_10_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 39396160,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.10.ffn_down.weight",
+      "internal_name": "layer_10_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 39398464,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.10.ffn_gate.weight",
+      "internal_name": "layer_10_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 40338496,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.10.ffn_up.weight",
+      "internal_name": "layer_10_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 41278528,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.10.ffn_norm.weight",
+      "internal_name": "layer_10_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 42218560,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.10.attn_k.weight",
+      "internal_name": "layer_10_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 42220864,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.10.attn_output.weight",
+      "internal_name": "layer_10_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 42338368,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.10.attn_q.weight",
+      "internal_name": "layer_10_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 42690880,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.10.attn_v.weight",
+      "internal_name": "layer_10_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 43043392,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.11.attn_norm.weight",
+      "internal_name": "layer_11_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 43160896,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.11.ffn_down.weight",
+      "internal_name": "layer_11_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 43163200,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.11.ffn_gate.weight",
+      "internal_name": "layer_11_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 44103232,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.11.ffn_up.weight",
+      "internal_name": "layer_11_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 45043264,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.11.ffn_norm.weight",
+      "internal_name": "layer_11_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 45983296,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.11.attn_k.weight",
+      "internal_name": "layer_11_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 45985600,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.11.attn_output.weight",
+      "internal_name": "layer_11_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 46103104,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.11.attn_q.weight",
+      "internal_name": "layer_11_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 46455616,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.11.attn_v.weight",
+      "internal_name": "layer_11_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 46808128,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.12.attn_norm.weight",
+      "internal_name": "layer_12_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 46925632,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.12.ffn_down.weight",
+      "internal_name": "layer_12_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 46927936,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.12.ffn_gate.weight",
+      "internal_name": "layer_12_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 47867968,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.12.ffn_up.weight",
+      "internal_name": "layer_12_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 48808000,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.12.ffn_norm.weight",
+      "internal_name": "layer_12_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 49748032,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.12.attn_k.weight",
+      "internal_name": "layer_12_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 49750336,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.12.attn_output.weight",
+      "internal_name": "layer_12_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 49867840,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.12.attn_q.weight",
+      "internal_name": "layer_12_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 50220352,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.12.attn_v.weight",
+      "internal_name": "layer_12_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 50572864,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.13.attn_norm.weight",
+      "internal_name": "layer_13_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 50690368,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.13.ffn_down.weight",
+      "internal_name": "layer_13_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 50692672,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.13.ffn_gate.weight",
+      "internal_name": "layer_13_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 51632704,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.13.ffn_up.weight",
+      "internal_name": "layer_13_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 52572736,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.13.ffn_norm.weight",
+      "internal_name": "layer_13_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 53512768,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.13.attn_k.weight",
+      "internal_name": "layer_13_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 53515072,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.13.attn_output.weight",
+      "internal_name": "layer_13_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 53632576,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.13.attn_q.weight",
+      "internal_name": "layer_13_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 53985088,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.13.attn_v.weight",
+      "internal_name": "layer_13_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 54337600,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.14.attn_norm.weight",
+      "internal_name": "layer_14_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 54455104,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.14.ffn_down.weight",
+      "internal_name": "layer_14_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 54457408,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.14.ffn_gate.weight",
+      "internal_name": "layer_14_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 55397440,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.14.ffn_up.weight",
+      "internal_name": "layer_14_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 56337472,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.14.ffn_norm.weight",
+      "internal_name": "layer_14_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 57277504,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.14.attn_k.weight",
+      "internal_name": "layer_14_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 57279808,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.14.attn_output.weight",
+      "internal_name": "layer_14_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 57397312,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.14.attn_q.weight",
+      "internal_name": "layer_14_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 57749824,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.14.attn_v.weight",
+      "internal_name": "layer_14_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 58102336,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.15.attn_norm.weight",
+      "internal_name": "layer_15_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 58219840,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.15.ffn_down.weight",
+      "internal_name": "layer_15_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 58222144,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.15.ffn_gate.weight",
+      "internal_name": "layer_15_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 59162176,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.15.ffn_up.weight",
+      "internal_name": "layer_15_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 60102208,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.15.ffn_norm.weight",
+      "internal_name": "layer_15_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 61042240,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.15.attn_k.weight",
+      "internal_name": "layer_15_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 61044544,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.15.attn_output.weight",
+      "internal_name": "layer_15_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 61162048,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.15.attn_q.weight",
+      "internal_name": "layer_15_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 61514560,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.15.attn_v.weight",
+      "internal_name": "layer_15_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 61867072,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.16.attn_norm.weight",
+      "internal_name": "layer_16_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 61984576,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.16.ffn_down.weight",
+      "internal_name": "layer_16_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 61986880,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.16.ffn_gate.weight",
+      "internal_name": "layer_16_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 62926912,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.16.ffn_up.weight",
+      "internal_name": "layer_16_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 63866944,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.16.ffn_norm.weight",
+      "internal_name": "layer_16_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 64806976,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.16.attn_k.weight",
+      "internal_name": "layer_16_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 64809280,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.16.attn_output.weight",
+      "internal_name": "layer_16_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 64926784,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.16.attn_q.weight",
+      "internal_name": "layer_16_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 65279296,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.16.attn_v.weight",
+      "internal_name": "layer_16_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 65631808,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.17.attn_norm.weight",
+      "internal_name": "layer_17_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 65749312,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.17.ffn_down.weight",
+      "internal_name": "layer_17_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 65751616,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.17.ffn_gate.weight",
+      "internal_name": "layer_17_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 66691648,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.17.ffn_up.weight",
+      "internal_name": "layer_17_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 67631680,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.17.ffn_norm.weight",
+      "internal_name": "layer_17_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 68571712,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.17.attn_k.weight",
+      "internal_name": "layer_17_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 68574016,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.17.attn_output.weight",
+      "internal_name": "layer_17_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 68691520,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.17.attn_q.weight",
+      "internal_name": "layer_17_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 69044032,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.17.attn_v.weight",
+      "internal_name": "layer_17_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 69396544,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.18.attn_norm.weight",
+      "internal_name": "layer_18_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 69514048,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.18.ffn_down.weight",
+      "internal_name": "layer_18_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 69516352,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.18.ffn_gate.weight",
+      "internal_name": "layer_18_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 70456384,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.18.ffn_up.weight",
+      "internal_name": "layer_18_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 71396416,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.18.ffn_norm.weight",
+      "internal_name": "layer_18_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 72336448,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.18.attn_k.weight",
+      "internal_name": "layer_18_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 72338752,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.18.attn_output.weight",
+      "internal_name": "layer_18_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 72456256,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.18.attn_q.weight",
+      "internal_name": "layer_18_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 72808768,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.18.attn_v.weight",
+      "internal_name": "layer_18_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 73161280,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.19.attn_norm.weight",
+      "internal_name": "layer_19_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 73278784,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.19.ffn_down.weight",
+      "internal_name": "layer_19_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 73281088,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.19.ffn_gate.weight",
+      "internal_name": "layer_19_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 74221120,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.19.ffn_up.weight",
+      "internal_name": "layer_19_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 75161152,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.19.ffn_norm.weight",
+      "internal_name": "layer_19_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 76101184,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.19.attn_k.weight",
+      "internal_name": "layer_19_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 76103488,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.19.attn_output.weight",
+      "internal_name": "layer_19_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 76220992,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.19.attn_q.weight",
+      "internal_name": "layer_19_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 76573504,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.19.attn_v.weight",
+      "internal_name": "layer_19_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 76926016,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.2.attn_norm.weight",
+      "internal_name": "layer_2_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 77043520,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.2.ffn_down.weight",
+      "internal_name": "layer_2_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 77045824,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.2.ffn_gate.weight",
+      "internal_name": "layer_2_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 77985856,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.2.ffn_up.weight",
+      "internal_name": "layer_2_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 78925888,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.2.ffn_norm.weight",
+      "internal_name": "layer_2_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 79865920,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.2.attn_k.weight",
+      "internal_name": "layer_2_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 79868224,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.2.attn_output.weight",
+      "internal_name": "layer_2_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 79985728,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.2.attn_q.weight",
+      "internal_name": "layer_2_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 80338240,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.2.attn_v.weight",
+      "internal_name": "layer_2_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 80690752,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.20.attn_norm.weight",
+      "internal_name": "layer_20_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 80808256,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.20.ffn_down.weight",
+      "internal_name": "layer_20_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 80810560,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.20.ffn_gate.weight",
+      "internal_name": "layer_20_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 81750592,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.20.ffn_up.weight",
+      "internal_name": "layer_20_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 82690624,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.20.ffn_norm.weight",
+      "internal_name": "layer_20_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 83630656,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.20.attn_k.weight",
+      "internal_name": "layer_20_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 83632960,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.20.attn_output.weight",
+      "internal_name": "layer_20_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 83750464,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.20.attn_q.weight",
+      "internal_name": "layer_20_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 84102976,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.20.attn_v.weight",
+      "internal_name": "layer_20_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 84455488,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.21.attn_norm.weight",
+      "internal_name": "layer_21_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 84572992,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.21.ffn_down.weight",
+      "internal_name": "layer_21_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 84575296,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.21.ffn_gate.weight",
+      "internal_name": "layer_21_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 85515328,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.21.ffn_up.weight",
+      "internal_name": "layer_21_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 86455360,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.21.ffn_norm.weight",
+      "internal_name": "layer_21_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 87395392,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.21.attn_k.weight",
+      "internal_name": "layer_21_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 87397696,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.21.attn_output.weight",
+      "internal_name": "layer_21_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 87515200,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.21.attn_q.weight",
+      "internal_name": "layer_21_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 87867712,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.21.attn_v.weight",
+      "internal_name": "layer_21_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 88220224,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.22.attn_norm.weight",
+      "internal_name": "layer_22_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 88337728,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.22.ffn_down.weight",
+      "internal_name": "layer_22_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 88340032,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.22.ffn_gate.weight",
+      "internal_name": "layer_22_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 89280064,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.22.ffn_up.weight",
+      "internal_name": "layer_22_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 90220096,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.22.ffn_norm.weight",
+      "internal_name": "layer_22_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 91160128,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.22.attn_k.weight",
+      "internal_name": "layer_22_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 91162432,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.22.attn_output.weight",
+      "internal_name": "layer_22_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 91279936,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.22.attn_q.weight",
+      "internal_name": "layer_22_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 91632448,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.22.attn_v.weight",
+      "internal_name": "layer_22_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 91984960,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.23.attn_norm.weight",
+      "internal_name": "layer_23_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 92102464,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.23.ffn_down.weight",
+      "internal_name": "layer_23_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 92104768,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.23.ffn_gate.weight",
+      "internal_name": "layer_23_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 93044800,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.23.ffn_up.weight",
+      "internal_name": "layer_23_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 93984832,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.23.ffn_norm.weight",
+      "internal_name": "layer_23_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 94924864,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.23.attn_k.weight",
+      "internal_name": "layer_23_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 94927168,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.23.attn_output.weight",
+      "internal_name": "layer_23_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 95044672,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.23.attn_q.weight",
+      "internal_name": "layer_23_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 95397184,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.23.attn_v.weight",
+      "internal_name": "layer_23_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 95749696,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.24.attn_norm.weight",
+      "internal_name": "layer_24_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 95867200,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.24.ffn_down.weight",
+      "internal_name": "layer_24_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 95869504,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.24.ffn_gate.weight",
+      "internal_name": "layer_24_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 96809536,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.24.ffn_up.weight",
+      "internal_name": "layer_24_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 97749568,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.24.ffn_norm.weight",
+      "internal_name": "layer_24_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 98689600,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.24.attn_k.weight",
+      "internal_name": "layer_24_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 98691904,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.24.attn_output.weight",
+      "internal_name": "layer_24_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 98809408,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.24.attn_q.weight",
+      "internal_name": "layer_24_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 99161920,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.24.attn_v.weight",
+      "internal_name": "layer_24_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 99514432,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.25.attn_norm.weight",
+      "internal_name": "layer_25_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 99631936,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.25.ffn_down.weight",
+      "internal_name": "layer_25_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 99634240,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.25.ffn_gate.weight",
+      "internal_name": "layer_25_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 100574272,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.25.ffn_up.weight",
+      "internal_name": "layer_25_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 101514304,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.25.ffn_norm.weight",
+      "internal_name": "layer_25_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 102454336,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.25.attn_k.weight",
+      "internal_name": "layer_25_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 102456640,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.25.attn_output.weight",
+      "internal_name": "layer_25_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 102574144,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.25.attn_q.weight",
+      "internal_name": "layer_25_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 102926656,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.25.attn_v.weight",
+      "internal_name": "layer_25_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 103279168,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.26.attn_norm.weight",
+      "internal_name": "layer_26_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 103396672,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.26.ffn_down.weight",
+      "internal_name": "layer_26_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 103398976,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.26.ffn_gate.weight",
+      "internal_name": "layer_26_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 104339008,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.26.ffn_up.weight",
+      "internal_name": "layer_26_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 105279040,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.26.ffn_norm.weight",
+      "internal_name": "layer_26_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 106219072,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.26.attn_k.weight",
+      "internal_name": "layer_26_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 106221376,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.26.attn_output.weight",
+      "internal_name": "layer_26_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 106338880,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.26.attn_q.weight",
+      "internal_name": "layer_26_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 106691392,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.26.attn_v.weight",
+      "internal_name": "layer_26_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 107043904,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.27.attn_norm.weight",
+      "internal_name": "layer_27_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 107161408,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.27.ffn_down.weight",
+      "internal_name": "layer_27_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 107163712,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.27.ffn_gate.weight",
+      "internal_name": "layer_27_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 108103744,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.27.ffn_up.weight",
+      "internal_name": "layer_27_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 109043776,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.27.ffn_norm.weight",
+      "internal_name": "layer_27_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 109983808,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.27.attn_k.weight",
+      "internal_name": "layer_27_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 109986112,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.27.attn_output.weight",
+      "internal_name": "layer_27_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 110103616,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.27.attn_q.weight",
+      "internal_name": "layer_27_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 110456128,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.27.attn_v.weight",
+      "internal_name": "layer_27_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 110808640,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.28.attn_norm.weight",
+      "internal_name": "layer_28_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 110926144,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.28.ffn_down.weight",
+      "internal_name": "layer_28_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 110928448,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.28.ffn_gate.weight",
+      "internal_name": "layer_28_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 111868480,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.28.ffn_up.weight",
+      "internal_name": "layer_28_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 112808512,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.28.ffn_norm.weight",
+      "internal_name": "layer_28_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 113748544,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.28.attn_k.weight",
+      "internal_name": "layer_28_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 113750848,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.28.attn_output.weight",
+      "internal_name": "layer_28_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 113868352,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.28.attn_q.weight",
+      "internal_name": "layer_28_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 114220864,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.28.attn_v.weight",
+      "internal_name": "layer_28_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 114573376,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.29.attn_norm.weight",
+      "internal_name": "layer_29_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 114690880,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.29.ffn_down.weight",
+      "internal_name": "layer_29_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 114693184,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.29.ffn_gate.weight",
+      "internal_name": "layer_29_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 115633216,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.29.ffn_up.weight",
+      "internal_name": "layer_29_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 116573248,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.29.ffn_norm.weight",
+      "internal_name": "layer_29_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 117513280,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.29.attn_k.weight",
+      "internal_name": "layer_29_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 117515584,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.29.attn_output.weight",
+      "internal_name": "layer_29_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 117633088,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.29.attn_q.weight",
+      "internal_name": "layer_29_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 117985600,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.29.attn_v.weight",
+      "internal_name": "layer_29_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 118338112,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.3.attn_norm.weight",
+      "internal_name": "layer_3_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 118455616,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.3.ffn_down.weight",
+      "internal_name": "layer_3_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 118457920,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.3.ffn_gate.weight",
+      "internal_name": "layer_3_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 119397952,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.3.ffn_up.weight",
+      "internal_name": "layer_3_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 120337984,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.3.ffn_norm.weight",
+      "internal_name": "layer_3_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 121278016,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.3.attn_k.weight",
+      "internal_name": "layer_3_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 121280320,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.3.attn_output.weight",
+      "internal_name": "layer_3_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 121397824,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.3.attn_q.weight",
+      "internal_name": "layer_3_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 121750336,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.3.attn_v.weight",
+      "internal_name": "layer_3_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 122102848,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.4.attn_norm.weight",
+      "internal_name": "layer_4_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 122220352,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.4.ffn_down.weight",
+      "internal_name": "layer_4_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 122222656,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.4.ffn_gate.weight",
+      "internal_name": "layer_4_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 123162688,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.4.ffn_up.weight",
+      "internal_name": "layer_4_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 124102720,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.4.ffn_norm.weight",
+      "internal_name": "layer_4_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 125042752,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.4.attn_k.weight",
+      "internal_name": "layer_4_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 125045056,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.4.attn_output.weight",
+      "internal_name": "layer_4_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 125162560,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.4.attn_q.weight",
+      "internal_name": "layer_4_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 125515072,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.4.attn_v.weight",
+      "internal_name": "layer_4_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 125867584,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.5.attn_norm.weight",
+      "internal_name": "layer_5_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 125985088,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.5.ffn_down.weight",
+      "internal_name": "layer_5_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 125987392,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.5.ffn_gate.weight",
+      "internal_name": "layer_5_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 126927424,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.5.ffn_up.weight",
+      "internal_name": "layer_5_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 127867456,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.5.ffn_norm.weight",
+      "internal_name": "layer_5_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 128807488,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.5.attn_k.weight",
+      "internal_name": "layer_5_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 128809792,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.5.attn_output.weight",
+      "internal_name": "layer_5_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 128927296,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.5.attn_q.weight",
+      "internal_name": "layer_5_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 129279808,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.5.attn_v.weight",
+      "internal_name": "layer_5_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 129632320,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.6.attn_norm.weight",
+      "internal_name": "layer_6_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 129749824,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.6.ffn_down.weight",
+      "internal_name": "layer_6_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 129752128,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.6.ffn_gate.weight",
+      "internal_name": "layer_6_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 130692160,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.6.ffn_up.weight",
+      "internal_name": "layer_6_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 131632192,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.6.ffn_norm.weight",
+      "internal_name": "layer_6_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 132572224,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.6.attn_k.weight",
+      "internal_name": "layer_6_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 132574528,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.6.attn_output.weight",
+      "internal_name": "layer_6_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 132692032,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.6.attn_q.weight",
+      "internal_name": "layer_6_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 133044544,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.6.attn_v.weight",
+      "internal_name": "layer_6_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 133397056,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.7.attn_norm.weight",
+      "internal_name": "layer_7_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 133514560,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.7.ffn_down.weight",
+      "internal_name": "layer_7_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 133516864,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.7.ffn_gate.weight",
+      "internal_name": "layer_7_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 134456896,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.7.ffn_up.weight",
+      "internal_name": "layer_7_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 135396928,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.7.ffn_norm.weight",
+      "internal_name": "layer_7_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 136336960,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.7.attn_k.weight",
+      "internal_name": "layer_7_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 136339264,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.7.attn_output.weight",
+      "internal_name": "layer_7_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 136456768,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.7.attn_q.weight",
+      "internal_name": "layer_7_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 136809280,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.7.attn_v.weight",
+      "internal_name": "layer_7_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 137161792,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.8.attn_norm.weight",
+      "internal_name": "layer_8_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 137279296,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.8.ffn_down.weight",
+      "internal_name": "layer_8_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 137281600,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.8.ffn_gate.weight",
+      "internal_name": "layer_8_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 138221632,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.8.ffn_up.weight",
+      "internal_name": "layer_8_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 139161664,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.8.ffn_norm.weight",
+      "internal_name": "layer_8_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 140101696,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.8.attn_k.weight",
+      "internal_name": "layer_8_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 140104000,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.8.attn_output.weight",
+      "internal_name": "layer_8_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 140221504,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.8.attn_q.weight",
+      "internal_name": "layer_8_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 140574016,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.8.attn_v.weight",
+      "internal_name": "layer_8_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 140926528,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.9.attn_norm.weight",
+      "internal_name": "layer_9_input_norm",
+      "shape": [
+        576
+      ],
+      "role": "attention_input_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 141044032,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.9.ffn_down.weight",
+      "internal_name": "layer_9_down_proj",
+      "shape": [
+        1536,
+        576
+      ],
+      "role": "mlp_down_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 141046336,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.9.ffn_gate.weight",
+      "internal_name": "layer_9_gate_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_gate_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 141986368,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.9.ffn_up.weight",
+      "internal_name": "layer_9_up_proj",
+      "shape": [
+        576,
+        1536
+      ],
+      "role": "mlp_up_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 142926400,
+      "nbytes": 940032,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.9.ffn_norm.weight",
+      "internal_name": "layer_9_post_attn_norm",
+      "shape": [
+        576
+      ],
+      "role": "post_attention_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 143866432,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.9.attn_k.weight",
+      "internal_name": "layer_9_k_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_k_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 143868736,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.9.attn_output.weight",
+      "internal_name": "layer_9_o_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_output_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 143986240,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.9.attn_q.weight",
+      "internal_name": "layer_9_q_proj",
+      "shape": [
+        576,
+        576
+      ],
+      "role": "attention_q_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 144338752,
+      "nbytes": 352512,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "blk.9.attn_v.weight",
+      "internal_name": "layer_9_v_proj",
+      "shape": [
+        576,
+        192
+      ],
+      "role": "attention_v_projection",
+      "used": true,
+      "dtype_or_quant_type": "Q8_0",
+      "offset": 144691264,
+      "nbytes": 117504,
+      "confidence": "auto",
+      "note": "matched blk.N GGUF tensor name rule"
+    },
+    {
+      "original_name": "output_norm.weight",
+      "internal_name": "final_norm",
+      "shape": [
+        576
+      ],
+      "role": "final_norm",
+      "used": true,
+      "dtype_or_quant_type": "F32",
+      "offset": 144808768,
+      "nbytes": 2304,
+      "confidence": "auto",
+      "note": "matched direct GGUF/HF tensor name rule"
+    }
+  ]
+}

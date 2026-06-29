@@ -1,0 +1,77 @@
+# Local editor/agent state
+.idea/
+.vscode/
+.codex/
+.agents/
+
+# Python environments and caches
+.venv/
+venv/
+env/
+pycharm/.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+pycharm/build/
+pycharm/reports/
+
+# Downloaded model weights and model caches
+models/*
+!models/.gitkeep
+quantized_model/original_gguf/*
+!quantized_model/original_gguf/.gitkeep
+*.gguf
+*.safetensors
+*.pt
+*.pth
+*.onnx
+
+# Generated FPGA/model layout binaries
+fpga_layout/q8_0_lane16/*.bin
+pycharm/fpga_layout/q8_0_lane16/*.bin
+
+# Vivado/Xilinx generated state
+.Xil/
+*.jou
+*.log
+*.pb
+*.str
+*.wdb
+*.wcfg
+*.dcp
+*.bit
+*.bin.bit
+*.ltx
+*.xsa
+*.hwdef
+*.runs/
+*.cache/
+*.gen/
+*.hw/
+*.sim/
+*.ip_user_files/
+hw/vivado_project/GPTalk.cache/
+hw/vivado_project/GPTalk.gen/
+hw/vivado_project/GPTalk.hw/
+hw/vivado_project/GPTalk.ip_user_files/
+hw/vivado_project/GPTalk.runs/
+hw/vivado_project/GPTalk.sim/
+
+# Deprecated/generated Vivado project snapshots
+deprecated/vivado_projects/
+
+# Logs and generated reports
+logs/*
+!logs/.gitkeep
+reports/*
+!reports/.gitkeep
+
+# Simulator temporary files
+.xsim.gcc.version
+xsim.dir/
+xvlog.log
+xelab.log
+xelab.pb
+simulate.log

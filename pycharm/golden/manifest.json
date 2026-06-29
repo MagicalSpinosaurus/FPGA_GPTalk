@@ -1,0 +1,341 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "schema_version": 1,
+      "case_name": "fake_gemv",
+      "source_kind": "synthetic_q8_0",
+      "source_note": "Small synthetic Q8_0-like matrix with one 32-column block and lane padding.",
+      "source": {
+        "gguf": null,
+        "tensor_map": null,
+        "tensors_csv": null,
+        "tensor_name": "fake_q8_0_hand_calc_weight",
+        "internal_name": "fake_gemv_weight",
+        "role": "synthetic_hand_calculation_and_padding_test",
+        "row_start": 0,
+        "row_count": 3,
+        "tied_lm_head": false
+      },
+      "random": {
+        "seed": 20260626,
+        "input_range_inclusive": [
+          -4,
+          4
+        ]
+      },
+      "geometry": {
+        "lanes": 16,
+        "q8_block_size": 32,
+        "scale_shift": 20,
+        "scale_dtype": "int32_le",
+        "in_features": 32,
+        "out_features": 3,
+        "padded_out_features": 16,
+        "row_padding": 13,
+        "q8_blocks_per_row": 1
+      },
+      "layout": {
+        "name": "q8_0_lane_grouped_col_major_v1",
+        "scale_q_order": "row_group, q8_0_block_index, lane",
+        "weight_order": "row_group, q8_0_block_index, column_in_block, lane",
+        "packet_order": "row_group, q8_0_block_index, scale_q_lanes, weight_columns_lanes"
+      },
+      "files": {
+        "input_i16": "input_i16.bin",
+        "weight_q8_fpga_layout": "weight_q8_fpga_layout.bin",
+        "scale_q_i32": "scale_q_i32.bin",
+        "packet_scale_q_weight": null,
+        "output_block_acc_ref_i32": "output_block_acc_ref_i32.bin",
+        "output_scaled_ref_i32": "output_scaled_ref_i32.bin",
+        "output_ref_float": "output_ref_float.bin",
+        "stream_order": "stream_order.txt",
+        "fake_hand_calculation": "fake_hand_calculation.json"
+      },
+      "binary_format": {
+        "input_i16": "little-endian int16 vector [in_features]",
+        "weight_q8_fpga_layout": "int8 stream ordered row_group, q8_0_block_index, column_in_block, lane",
+        "scale_q_i32": "little-endian int32 stream ordered row_group, q8_0_block_index, lane",
+        "packet_scale_q_weight": "optional mixed packet: int32 scale_q lanes then int8 weight block payload",
+        "output_block_acc_ref_i32": "little-endian int32 matrix [out_features, q8_blocks_per_row]",
+        "output_scaled_ref_i32": "little-endian int32 vector [out_features], signed rounded fixed-point scaled result",
+        "output_ref_float": "little-endian float32 vector [out_features], Q8_0 decode reference"
+      },
+      "formulas": {
+        "scale_q": "round(scale_f16 * 2^scale_shift)",
+        "output_block_acc_ref_i32[row][block]": "sum_k(input_i16[block*32+k] * weight_i8[row][block*32+k])",
+        "output_scaled_ref_i32[row]": "round_away_from_zero(sum_block(block_acc_i32[row][block] * scale_q[row][block]) / 2^scale_shift)",
+        "output_ref_float[row]": "sum_k(input_i16[k] * q8_0_decode_float(weight[row][k]))"
+      },
+      "verification": {
+        "weight_stream_exact_match": true,
+        "scale_q_stream_exact_match": true,
+        "block_acc_i32_exact_match_after_stream_restore": true,
+        "scaled_i32_exact_match_after_stream_restore": true,
+        "fixed_vs_float_max_abs_error": 0.0,
+        "fixed_vs_float_mean_abs_error": 0.0
+      },
+      "sizes": {
+        "input_bytes": 64,
+        "weight_bytes": 512,
+        "scale_q_bytes": 64,
+        "packet_bytes": 0,
+        "block_acc_bytes": 12,
+        "scaled_i32_bytes": 12,
+        "output_float_bytes": 12
+      }
+    },
+    {
+      "schema_version": 1,
+      "case_name": "layer0_q_proj",
+      "source_kind": "gguf_q8_0",
+      "source_note": "",
+      "source": {
+        "gguf": "quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf",
+        "tensor_map": "fpga_layout/tensor_map.json",
+        "tensors_csv": "pycharm/reports/gguf_inspect/tensors.csv",
+        "tensor_name": "blk.0.attn_q.weight",
+        "internal_name": "layer_0_q_proj",
+        "role": "attention_q_projection",
+        "row_start": 0,
+        "row_count": 576,
+        "tied_lm_head": false
+      },
+      "random": {
+        "seed": 20261635,
+        "input_range_inclusive": [
+          -512,
+          511
+        ]
+      },
+      "geometry": {
+        "lanes": 16,
+        "q8_block_size": 32,
+        "scale_shift": 20,
+        "scale_dtype": "int32_le",
+        "in_features": 576,
+        "out_features": 576,
+        "padded_out_features": 576,
+        "row_padding": 0,
+        "q8_blocks_per_row": 18
+      },
+      "layout": {
+        "name": "q8_0_lane_grouped_col_major_v1",
+        "scale_q_order": "row_group, q8_0_block_index, lane",
+        "weight_order": "row_group, q8_0_block_index, column_in_block, lane",
+        "packet_order": "row_group, q8_0_block_index, scale_q_lanes, weight_columns_lanes"
+      },
+      "files": {
+        "input_i16": "input_i16.bin",
+        "weight_q8_fpga_layout": "weight_q8_fpga_layout.bin",
+        "scale_q_i32": "scale_q_i32.bin",
+        "packet_scale_q_weight": null,
+        "output_block_acc_ref_i32": "output_block_acc_ref_i32.bin",
+        "output_scaled_ref_i32": "output_scaled_ref_i32.bin",
+        "output_ref_float": "output_ref_float.bin",
+        "stream_order": "stream_order.txt",
+        "fake_hand_calculation": null
+      },
+      "binary_format": {
+        "input_i16": "little-endian int16 vector [in_features]",
+        "weight_q8_fpga_layout": "int8 stream ordered row_group, q8_0_block_index, column_in_block, lane",
+        "scale_q_i32": "little-endian int32 stream ordered row_group, q8_0_block_index, lane",
+        "packet_scale_q_weight": "optional mixed packet: int32 scale_q lanes then int8 weight block payload",
+        "output_block_acc_ref_i32": "little-endian int32 matrix [out_features, q8_blocks_per_row]",
+        "output_scaled_ref_i32": "little-endian int32 vector [out_features], signed rounded fixed-point scaled result",
+        "output_ref_float": "little-endian float32 vector [out_features], Q8_0 decode reference"
+      },
+      "formulas": {
+        "scale_q": "round(scale_f16 * 2^scale_shift)",
+        "output_block_acc_ref_i32[row][block]": "sum_k(input_i16[block*32+k] * weight_i8[row][block*32+k])",
+        "output_scaled_ref_i32[row]": "round_away_from_zero(sum_block(block_acc_i32[row][block] * scale_q[row][block]) / 2^scale_shift)",
+        "output_ref_float[row]": "sum_k(input_i16[k] * q8_0_decode_float(weight[row][k]))"
+      },
+      "verification": {
+        "weight_stream_exact_match": true,
+        "scale_q_stream_exact_match": true,
+        "block_acc_i32_exact_match_after_stream_restore": true,
+        "scaled_i32_exact_match_after_stream_restore": true,
+        "fixed_vs_float_max_abs_error": 0.00146484375,
+        "fixed_vs_float_mean_abs_error": 0.00022987525153439492
+      },
+      "sizes": {
+        "input_bytes": 1152,
+        "weight_bytes": 331776,
+        "scale_q_bytes": 41472,
+        "packet_bytes": 0,
+        "block_acc_bytes": 41472,
+        "scaled_i32_bytes": 2304,
+        "output_float_bytes": 2304
+      }
+    },
+    {
+      "schema_version": 1,
+      "case_name": "layer0_gate_proj",
+      "source_kind": "gguf_q8_0",
+      "source_note": "",
+      "source": {
+        "gguf": "quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf",
+        "tensor_map": "fpga_layout/tensor_map.json",
+        "tensors_csv": "pycharm/reports/gguf_inspect/tensors.csv",
+        "tensor_name": "blk.0.ffn_gate.weight",
+        "internal_name": "layer_0_gate_proj",
+        "role": "mlp_gate_projection",
+        "row_start": 0,
+        "row_count": 1536,
+        "tied_lm_head": false
+      },
+      "random": {
+        "seed": 20262644,
+        "input_range_inclusive": [
+          -512,
+          511
+        ]
+      },
+      "geometry": {
+        "lanes": 16,
+        "q8_block_size": 32,
+        "scale_shift": 20,
+        "scale_dtype": "int32_le",
+        "in_features": 576,
+        "out_features": 1536,
+        "padded_out_features": 1536,
+        "row_padding": 0,
+        "q8_blocks_per_row": 18
+      },
+      "layout": {
+        "name": "q8_0_lane_grouped_col_major_v1",
+        "scale_q_order": "row_group, q8_0_block_index, lane",
+        "weight_order": "row_group, q8_0_block_index, column_in_block, lane",
+        "packet_order": "row_group, q8_0_block_index, scale_q_lanes, weight_columns_lanes"
+      },
+      "files": {
+        "input_i16": "input_i16.bin",
+        "weight_q8_fpga_layout": "weight_q8_fpga_layout.bin",
+        "scale_q_i32": "scale_q_i32.bin",
+        "packet_scale_q_weight": null,
+        "output_block_acc_ref_i32": "output_block_acc_ref_i32.bin",
+        "output_scaled_ref_i32": "output_scaled_ref_i32.bin",
+        "output_ref_float": "output_ref_float.bin",
+        "stream_order": "stream_order.txt",
+        "fake_hand_calculation": null
+      },
+      "binary_format": {
+        "input_i16": "little-endian int16 vector [in_features]",
+        "weight_q8_fpga_layout": "int8 stream ordered row_group, q8_0_block_index, column_in_block, lane",
+        "scale_q_i32": "little-endian int32 stream ordered row_group, q8_0_block_index, lane",
+        "packet_scale_q_weight": "optional mixed packet: int32 scale_q lanes then int8 weight block payload",
+        "output_block_acc_ref_i32": "little-endian int32 matrix [out_features, q8_blocks_per_row]",
+        "output_scaled_ref_i32": "little-endian int32 vector [out_features], signed rounded fixed-point scaled result",
+        "output_ref_float": "little-endian float32 vector [out_features], Q8_0 decode reference"
+      },
+      "formulas": {
+        "scale_q": "round(scale_f16 * 2^scale_shift)",
+        "output_block_acc_ref_i32[row][block]": "sum_k(input_i16[block*32+k] * weight_i8[row][block*32+k])",
+        "output_scaled_ref_i32[row]": "round_away_from_zero(sum_block(block_acc_i32[row][block] * scale_q[row][block]) / 2^scale_shift)",
+        "output_ref_float[row]": "sum_k(input_i16[k] * q8_0_decode_float(weight[row][k]))"
+      },
+      "verification": {
+        "weight_stream_exact_match": true,
+        "scale_q_stream_exact_match": true,
+        "block_acc_i32_exact_match_after_stream_restore": true,
+        "scaled_i32_exact_match_after_stream_restore": true,
+        "fixed_vs_float_max_abs_error": 0.000732421875,
+        "fixed_vs_float_mean_abs_error": 0.0001519310026196763
+      },
+      "sizes": {
+        "input_bytes": 1152,
+        "weight_bytes": 884736,
+        "scale_q_bytes": 110592,
+        "packet_bytes": 0,
+        "block_acc_bytes": 110592,
+        "scaled_i32_bytes": 6144,
+        "output_float_bytes": 6144
+      }
+    },
+    {
+      "schema_version": 1,
+      "case_name": "lm_head_slice",
+      "source_kind": "gguf_q8_0",
+      "source_note": "This GGUF has no separate output.weight tensor; the lm_head slice is generated from token_embd.weight as tied embeddings.",
+      "source": {
+        "gguf": "quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf",
+        "tensor_map": "fpga_layout/tensor_map.json",
+        "tensors_csv": "pycharm/reports/gguf_inspect/tensors.csv",
+        "tensor_name": "token_embd.weight",
+        "internal_name": "lm_head_tied_tok_embeddings_slice",
+        "role": "lm_head_tied_token_embedding_slice",
+        "row_start": 0,
+        "row_count": 32,
+        "tied_lm_head": true
+      },
+      "random": {
+        "seed": 20263653,
+        "input_range_inclusive": [
+          -512,
+          511
+        ]
+      },
+      "geometry": {
+        "lanes": 16,
+        "q8_block_size": 32,
+        "scale_shift": 20,
+        "scale_dtype": "int32_le",
+        "in_features": 576,
+        "out_features": 32,
+        "padded_out_features": 32,
+        "row_padding": 0,
+        "q8_blocks_per_row": 18
+      },
+      "layout": {
+        "name": "q8_0_lane_grouped_col_major_v1",
+        "scale_q_order": "row_group, q8_0_block_index, lane",
+        "weight_order": "row_group, q8_0_block_index, column_in_block, lane",
+        "packet_order": "row_group, q8_0_block_index, scale_q_lanes, weight_columns_lanes"
+      },
+      "files": {
+        "input_i16": "input_i16.bin",
+        "weight_q8_fpga_layout": "weight_q8_fpga_layout.bin",
+        "scale_q_i32": "scale_q_i32.bin",
+        "packet_scale_q_weight": null,
+        "output_block_acc_ref_i32": "output_block_acc_ref_i32.bin",
+        "output_scaled_ref_i32": "output_scaled_ref_i32.bin",
+        "output_ref_float": "output_ref_float.bin",
+        "stream_order": "stream_order.txt",
+        "fake_hand_calculation": null
+      },
+      "binary_format": {
+        "input_i16": "little-endian int16 vector [in_features]",
+        "weight_q8_fpga_layout": "int8 stream ordered row_group, q8_0_block_index, column_in_block, lane",
+        "scale_q_i32": "little-endian int32 stream ordered row_group, q8_0_block_index, lane",
+        "packet_scale_q_weight": "optional mixed packet: int32 scale_q lanes then int8 weight block payload",
+        "output_block_acc_ref_i32": "little-endian int32 matrix [out_features, q8_blocks_per_row]",
+        "output_scaled_ref_i32": "little-endian int32 vector [out_features], signed rounded fixed-point scaled result",
+        "output_ref_float": "little-endian float32 vector [out_features], Q8_0 decode reference"
+      },
+      "formulas": {
+        "scale_q": "round(scale_f16 * 2^scale_shift)",
+        "output_block_acc_ref_i32[row][block]": "sum_k(input_i16[block*32+k] * weight_i8[row][block*32+k])",
+        "output_scaled_ref_i32[row]": "round_away_from_zero(sum_block(block_acc_i32[row][block] * scale_q[row][block]) / 2^scale_shift)",
+        "output_ref_float[row]": "sum_k(input_i16[k] * q8_0_decode_float(weight[row][k]))"
+      },
+      "verification": {
+        "weight_stream_exact_match": true,
+        "scale_q_stream_exact_match": true,
+        "block_acc_i32_exact_match_after_stream_restore": true,
+        "scaled_i32_exact_match_after_stream_restore": true,
+        "fixed_vs_float_max_abs_error": 0.0006103515625,
+        "fixed_vs_float_mean_abs_error": 0.0001723766326904297
+      },
+      "sizes": {
+        "input_bytes": 1152,
+        "weight_bytes": 18432,
+        "scale_q_bytes": 2304,
+        "packet_bytes": 0,
+        "block_acc_bytes": 2304,
+        "scaled_i32_bytes": 128,
+        "output_float_bytes": 128
+      }
+    }
+  ]
+}
